@@ -3,6 +3,10 @@ zdk-agenda
 
 # Introduction
 
+#### This is a forked Polymer 1.0 version of zdk-agenda. This is still under development and may not be suitable for production.
+
+#### Please feel free to fork and contribute.
+
 zdk-agenda is a calendar/agenda web component, using Polymer, that present different views of a full-sized calendar: day, week, month, planning.
 
 # Usage

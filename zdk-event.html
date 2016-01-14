@@ -1,7 +1,6 @@
-<link rel="import" href="../polymer/polymer.html">
+<html><head><link rel="import" href="../polymer/polymer.html">
 
-<polymer-element name="zdk-event" attributes="date time end label" on-click={{eventClick}}>
-	<template>
+</head><body><dom-module id="zdk-event" attribute="date time end label">
 		<style>
 			:host {
 				position: absolute;
@@ -17,47 +16,12 @@
 				display: none;
 				color: white;
 			}
-			div#event {
-				/* border: 2px solid rgba(127,127,127,0.3); */
-				padding: 2px 4px;
-				box-sizing:border-box;
-			}
-			.time {
-				font-weight: 700;
-			}
-			.title {
-				font-weight: 300;
-			}
 		</style>
-		<div id="event">
-			<span class="time">{{time}}</span> <span class="title">{{label}}</span>
-		</div>
-	</template>
-	<script>
-	Polymer('zdk-event', {
-		start: null,
-		time: null,
-		end: null,
-		label: null,
-		startChanged: function(oldValue, newValue) {
-			if ( !oldValue || oldValue === newValue ) return;
-			this.setAttribute("start", newValue);
-			this.time = moment(newValue, 'YYYY-MM-DD HH:mm').format('HH:mm');
-			this.fire('zdk-event-changed');
-		},
-		endChanged: function(oldValue, newValue) {
-			if ( !oldValue || oldValue === newValue ) return;
-			this.setAttribute("end", newValue);
-			this.fire('zdk-event-changed');
-		},
-		labelChanged: function(oldValue, newValue) {
-			if( !oldValue || oldValue === newValue ) return;
-			this.setAttribute("label", newValue);
-			this.fire('zdk-event-changed');
-		},
-		eventClick: function(event, detail, sender) {
-			this.fire('zdk-event-click',{event: this});
-		}
-	});
-	</script>
-</polymer-element>
+		<template>
+			<div id="event" on-click="eventClick">
+				<span class="time">{{time}}</span> <span class="title">{{label}}</span>
+			</div>
+		</template>
+	<script src="zdk-event.js"></script>
+</dom-module>
+</body></html>
