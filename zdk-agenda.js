@@ -954,13 +954,15 @@
 											offset++;
 
 											if (offset == 1 && df.children[indx - 1 - nb]) {
-												df.children[indx - 1 - nb].style.width = 100 - offset * 100 / 3.5 + '%';
+                        console.log(df.children.length);
+												df.children[indx - 1 - nb].style.width = (100 - offset * 100 / (df.children.length+1)) + '%';
 											}
 										}
 										nb++;
 										prev = dayEvents[indx - 1 - nb];
 									}
-									eventElement.style.left = offset / 3.0 * 100 + "%";
+
+									eventElement.style.left = offset / (df.children.length+1) * 100 + "%";
 
 									// Top position (start)
 									if (!event.isStart) {
