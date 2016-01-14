@@ -1,5 +1,4 @@
-<!-- <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html"> add to top with other imports  -->
-<html><head><link rel="import" href="../polymer/polymer.html">
+<!-- <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html"> add to top with other imports  --><html><head><link rel="import" href="../polymer/polymer.html">
 	<link rel="import" href="../font-roboto/roboto.html">
 <link rel="import" href="../paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
@@ -268,8 +267,8 @@ div.hours {
 	width:25px;
 	font-family: "Oxygen Mono", Oxygen , monospace;
 	font-size: .8em;
-	/*background: linear-gradient(to bottom, white 0px, white 24px, #E0E0E0 25px, #E0E0E0 25px, white 20px, white 49px, #ccc 50px, #ccc 50px);*/
-	/*background-size: 100% 50px;*/
+	background: linear-gradient(to bottom, white 0px, white 24px, #E0E0E0 25px, #E0E0E0 25px, white 20px, white 49px, #ccc 50px, #ccc 50px);
+	background-size: 100% 50px;
 	border-right: 1px solid #E0E0E0;
 }
 
@@ -318,8 +317,8 @@ div.dayview {
 	overflow: hidden;
 	border-left: 1px solid #ccc;
 	position:relative;
-	/*background: linear-gradient(to bottom, white 0px, white 24px, #E0E0E0 25px, #E0E0E0 25px, white 20px, white 49px, #ccc 50px, #ccc 50px);*/
-	/*background-size: 100% 50px;*/
+	background: linear-gradient(to bottom, white 0px, white 24px, #E0E0E0 25px, #E0E0E0 25px, white 20px, white 49px, #ccc 50px, #ccc 50px);
+	background-size: 100% 50px;
 }
 
 
@@ -328,9 +327,9 @@ div.dayview {
 }
 
 .today {
-	/*background: linear-gradient(to bottom, rgba(255, 255, 224, 0.5) 0px, rgba(255, 255, 224, 0.5) 24px, #E0E0E0 25px, #E0E0E0 25px, rgba(255, 255, 224, 0.5) 20px, rgba(255, 255, 224, 0.5) 49px, #ccc 50px, #ccc 50px) !important;*/
-	background: rgba(255, 255, 224, 0.5) !important;
-	/*background-size: 100% 50px !important;*/
+	background: linear-gradient(to bottom, rgba(255, 255, 224, 0.5) 0px, rgba(255, 255, 224, 0.5) 24px, #E0E0E0 25px, #E0E0E0 25px, rgba(255, 255, 224, 0.5) 20px, rgba(255, 255, 224, 0.5) 49px, #ccc 50px, #ccc 50px) !important;
+	/*background: rgba(255, 255, 224, 0.5) !important;*/
+	background-size: 100% 50px !important;
 }
 
 div.monthview {
@@ -364,6 +363,12 @@ div.monthview > div.row {
 
 #monthview div.day {
 	border-top: solid 1px #ccc;
+	background: white;
+}
+
+#monthview div.d1 {
+	border-top: solid 1px #ccc;
+	background: #F9F9F9;
 }
 
 div#monthview > div.row > div.day > .border {
@@ -561,7 +566,7 @@ div.eventMonth span.title {
 		<template>
 
 		<div class="vertical layout agenda flex-equal-justified" id="agenda">
-			<paper-toolbar id="banner">
+			<paper-toolbar id="banner" style="height: 60px;">
 				<paper-icon-button icon="arrow-back" id="previous" on-tap="previous"></paper-icon-button>
 				<paper-icon-button id="today_icon_button" icon="today" on-tap="today">Today</paper-icon-button>
 				<paper-icon-button icon="arrow-forward" id="next" on-tap="next"></paper-icon-button>
@@ -604,9 +609,9 @@ div.eventMonth span.title {
 					<div class="hours"></div>
 					<div class="days"></div>
 				</div>
-				<div id="monthview" class="monthview" style="height:600px">
+				<div id="monthview" class="monthview" style="height:600px; display: none;">
 				</div>
-				<div id="planning-view">
+				<div id="planning-view" style="display: none;">
 				</div>
 			</div>
 		</div>
@@ -621,4 +626,5 @@ div.eventMonth span.title {
 		</div>
 	</template>
 	<script src="zdk-agenda.js"></script>
-	</dom-module></body></html>
+	</dom-module>
+</body></html>

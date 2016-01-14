@@ -31,7 +31,7 @@
 						this.$.agenda.querySelector(".monthview").style.display = "";
 						this.$.weekdays.style.display = "";
 						this.$.weekdays.querySelector(".hours").style.display = "none";
-						this.$['all-day-events'].style.display = "none";
+						this.$['all-day-events'].style.display = 'none';
 						this.$['planning-view'].style.display = 'none';
 						this.setTime(0);
 						break;
@@ -39,9 +39,8 @@
 						this.$.agenda.querySelector(".view").style.display = "";
 						this.$.weekdays.style.display = "";
 						this.$.weekdays.querySelector(".hours").style.display = "";
-						this.$.agenda.querySelector(".monthview").style.display = "none";
-						this.$['all-day-events'].style.display = "";
-						this.$['planning-view'].style.display = 'none';
+            this.$['all-day-events'].style.display = '';
+            this.$['planning-view'].style.display = 'none';
 						this.setTime(this.hourShow);
 				}
 
@@ -177,7 +176,8 @@
 						div = document.createElement("div");
 						div.innerHTML = pad(i, 2);
 						// div.style.bottom = ( (24 - i) * obj.hourHeight) + "px";
-            div.style.marginBottom = "35px";
+            div.style.marginBottom = "40px";
+            div.style.marginLeft = "6px";
 						df.appendChild(div);
 					}
 
@@ -910,6 +910,9 @@
 
 								var df = document.createDocumentFragment();
 
+                console.log("VVV events VVV");
+                console.log(dayEvents);
+
 								var node;
 								dayEvents.forEach( function ( event, indx ) {
 									var nb = 0;
@@ -918,7 +921,7 @@
 									eventElement.setAttribute("end", event.end);
 									eventElement.setAttribute("label", event.label);
 									eventElement.classList.add("event");
-									eventElement.classList.add(event.className);
+									eventElement.classList.add(event.className.split(" ")[0]);
                   eventElement.classList.add("zdk-agenda");
 									eventElement.setAttribute('data-num', event.num);
 
@@ -1018,7 +1021,7 @@
 
 			setTime: function(hour) {
 				hour = (hour !== undefined && !isNaN(hour)) ? hour : this.hourShow;
-				this.$.scrollarea.scrollTop = hour * this.hourHeight;
+				Polymer.dom(document.querySelector("zdk-agenda").querySelector("#scrollarea")).scrollTop = hour * this.hourHeight;
 			},
 
 			/**
