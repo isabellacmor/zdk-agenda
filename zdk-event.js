@@ -3,13 +3,13 @@
 
 		properties: {
         start: String,
-				time: String,
 				end: String,
 				label: String
     },
 
 		ready: function() {
-			console.log(this.start + "\t" + this.time + "\t" + this.end + "\t" + this.label);
+			console.log(this.start + "\t" + this.end + "\t" + this.label);
+			console.log("This is the zdk-event.");
 		},
 
 		startChanged: function(oldValue, newValue) {

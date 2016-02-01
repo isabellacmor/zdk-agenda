@@ -1,6 +1,6 @@
 <html><head><link rel="import" href="../polymer/polymer.html">
 
-</head><body><dom-module id="zdk-event" attribute="date time end label">
+</head><body><dom-module id="zdk-event" attribute="start end label">
 		<style>
 			:host {
 				position: absolute;
@@ -18,8 +18,9 @@
 			}
 		</style>
 		<template>
-			<div id="event" on-click="eventClick">
+			<div id="event">
 				<span class="time">{{time}}</span> <span class="title">{{label}}</span>
+				<!-- <span class="title">{{label}}</span> -->
 			</div>
 		</template>
 	<script src="zdk-event.js"></script>

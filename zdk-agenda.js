@@ -10,7 +10,7 @@
 			allDayEventsByDay: {},
 			dragging: false,
 			editable: true,
-			deleteButtons: false,
+			deleteButtons: true,
 			deleteIcon: 'close',
 
 			/**
@@ -23,7 +23,7 @@
 						this.$.agenda.querySelector(".monthview").style.display = "none";
 						this.$.weekdays.style.display = "none";
 						this.$['all-day-events'].style.display = "none";
-						this.$['planning-view'].style.display = '';
+						this.$['planning-view'].style.display = 'block';
 						this.setTime(0);
 						break;
 					case 'month':
@@ -33,6 +33,7 @@
 						this.$.weekdays.querySelector(".hours").style.display = "none";
 						this.$['all-day-events'].style.display = 'none';
 						this.$['planning-view'].style.display = 'none';
+            this.$['monthview'].style.display = 'block';
 						this.setTime(0);
 						break;
 					default:
@@ -41,6 +42,7 @@
 						this.$.weekdays.querySelector(".hours").style.display = "";
             this.$['all-day-events'].style.display = '';
             this.$['planning-view'].style.display = 'none';
+            this.$['monthview'].style.display = 'none';
 						this.setTime(this.hourShow);
 				}
 
@@ -98,7 +100,8 @@
             console.log(this.events);
           }
 				}
-
+        
+        this.view = "week";
         // Always start out in week view
         this.drawWeekDays();
 			},
@@ -678,7 +681,9 @@
 						break;
 
 					case 'month':
+            console.log("drawing events for month");
 						if (!this.$.agenda.querySelectorAll(".monthview .day").length) {
+              console.log("in first if");
 							setTimeout( function() { that.drawEvents(compute); }, 0);
 							return;
 						}
@@ -692,6 +697,7 @@
 						});
 
 						if (compute !== false) {
+              console.log("in second if");
 							this.eventsByDay = this._computeEvents(this.$.agenda.querySelectorAll(".monthview .day"));
 						}
 
@@ -699,6 +705,7 @@
 
 						// We draw the events
 						[].slice.call(this.$.agenda.querySelectorAll(".monthview .day")).forEach( function(day) {
+              console.log("drawing event for day: " + day);
 							var dayEvents = events[day.getAttribute("data-date")];
 
 							if (dayEvents && dayEvents.length) {
@@ -712,6 +719,8 @@
 								var maxEvents = 3;
 
 								var displayEvent = function(event) {
+                  console.log("display event");
+                  console.log(event);
 									var div = document.createElement('div');
 									div.className = event.className;
 									div.classList.add('eventMonth');
@@ -748,16 +757,37 @@
 									if (that.editable && that.deleteButtons && (event.isEnd || date.weekday() === 6)) {
 										var closeButton = document.createElement('paper-icon-button');
 										closeButton.setAttribute('icon', that.deleteIcon);
-										closeButton.className = 'close';
+										closeButton.className = 'deleteEvent zdk-agenda';
+
+                    closeButton.addEventListener("click", function(e) {
+                      console.log("trying to delete event");
+                      console.log(e);
+
+                      var event_to_delete = e.path[2].attributes.id.value;
+
+                      for(var i = 0; i < that.events.length; i++) {
+                        if(that.events[i].event_id == event_to_delete) {
+                          console.log("found it! at index: " + i);
+                          that.events.splice(i, 1);
+                          Polymer.dom(document.querySelector("ss-main-stack").querySelector("zdk-agenda")).node.drawEvents(true);
+                          console.log(that.events);
+                          break;
+                        }
+                      }
+                    });
 
 										div.classList.add('deletable');
 										div.appendChild(closeButton);
 									}
 
+                  console.log(div);
 									return div;
 								};
+
 								var hiddenEvents = 0;
 								dayEvents.forEach( function(event, i) {
+                  console.log("dayEvents");
+                  console.log(event);
 
 									while (parseInt(event.index) > index && index < maxEvents) {
 										var div = document.createElement('div');
@@ -917,6 +947,7 @@
 								dayEvents.forEach( function ( event, indx ) {
 									var nb = 0;
 									var eventElement = document.createElement('div');
+                  eventElement.setAttribute("id", event.event_id);
 									eventElement.setAttribute("start", event.start);
 									eventElement.setAttribute("end", event.end);
 									eventElement.setAttribute("label", event.label);
@@ -995,10 +1026,29 @@
 
 									eventElement.innerHTML += innerElement.join('');
 
-									if (that.editable && that.deleteButtons) {
+                  // Add delete button if events are deletable
+                  if (that.editable && that.deleteButtons) {
 										var closeButton = document.createElement('paper-icon-button');
 										closeButton.setAttribute('icon', that.deleteIcon);
-										closeButton.className = 'close';
+										closeButton.className = 'deleteEvent zdk-agenda';
+
+                    closeButton.addEventListener("click", function(e) {
+                      console.log("trying to delete event");
+                      console.log(e);
+
+                      var event_to_delete = e.path[2].attributes.id.value;
+
+                      for(var i = 0; i < that.events.length; i++) {
+                        if(that.events[i].event_id == event_to_delete) {
+                          console.log("found it! at index: " + i);
+                          that.events.splice(i, 1);
+                          Polymer.dom(document.querySelector("ss-main-stack").querySelector("zdk-agenda")).node.drawEvents(true);
+                          console.log(that.events);
+                          break;
+                        }
+                      }
+                    });
+
 
 										eventElement.classList.add('deletable');
 										eventElement.appendChild(closeButton);
@@ -1008,6 +1058,9 @@
 
 
 									}
+
+                  // var str = "<zdk-event class='" + event.className.split(" ")[0] + "' start='" + event.start + "' end='" + event.end + "' label='" + event.label + "'></zdk-event>";
+                  // df.insertAdjacentHTML('beforeEnd', str );
 
 									df.appendChild(eventElement);
 
@@ -1028,17 +1081,22 @@
 			 * Displays the previous day/week/month, depending on the current view.
 			 */
 			previous: function() {
+        console.log("going back");
 				switch (this.view) {
 					case 'planning':
+            console.log("planning");
 						this.day.subtract(1, 'd');
 						break;
 					case 'month':
+            console.log("month");
 						this.day.subtract(1, 'M');
 						break;
 					case 'week':
+            console.log("week");
 						this.day.subtract(1, 'w');
 						break;
 					case 'day':
+            console.log("day");
 						this.day.subtract(1, 'd');
 						break;
 				}
@@ -1049,6 +1107,7 @@
 			 * Displays the next day/week/month, depending on the current view.
 			 */
 			next: function() {
+        console.log("going forward");
 				switch (this.view) {
 					case 'planning':
 						this.day.add(1, 'd');
